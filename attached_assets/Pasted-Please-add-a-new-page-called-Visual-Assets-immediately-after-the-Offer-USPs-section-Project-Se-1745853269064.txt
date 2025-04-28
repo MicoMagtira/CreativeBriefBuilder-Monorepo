@@ -1,0 +1,83 @@
+Please add a new page called Visual Assets immediately after the Offer & USPs section.
+
+⚡ Project Setup
+Continue using the existing Vite + React + TailwindCSS setup.
+
+Continue using React Router DOM for page routing.
+
+Create a new page file at /src/pages/VisualAssets.jsx.
+
+Add a new route: /visual-assets.
+
+🧩 Page Layout Structure
+Page Title:
+
+Heading: Visual Assets
+
+Subtext: "Upload images for top performing ads as reference, and upload visual moodboard samples to guide the creative direction."
+
+✏️ Upload Sections to Include:
+Top Performing Ads Upload
+
+Subheading: Top Performing Ads (Reference)
+
+Drag and drop upload zone (similar to the Brand Reviews upload area).
+
+Instructions inside upload box:
+
+"Upload reference images from your best-performing ads. Supported formats: JPG, PNG, up to 10MB per file."
+
+Allow multiple images upload (can be visual only for now — no actual upload logic yet).
+
+Visual Moodboard Upload
+
+Subheading: Visual Moodboard
+
+Another drag and drop upload zone (same design as above).
+
+Instructions inside upload box:
+
+"Upload sample visuals that represent the desired look, feel, and style for the new creative. Supported formats: JPG, PNG, up to 10MB per file."
+
+Allow multiple images upload.
+
+🎨 Styling Details
+Use TailwindCSS:
+
+border-dashed, rounded-lg, p-8, bg-gray-50 for the upload areas.
+
+Hover effect on upload zones (hover:bg-gray-100).
+
+Upload icons inside zones (optional).
+
+Maintain consistent margin and spacing between sections (space-y-10).
+
+Upload boxes should be visually similar to the "Upload Customer Reviews" section built previously.
+
+🚀 Bottom Navigation Buttons
+Left bottom: Back button (goes to /offer page).
+
+Right bottom: Next: Review → button (goes to /review page).
+
+Buttons styled consistently with other pages.
+
+📂 Folder and File Organization
+Create /src/pages/VisualAssets.jsx.
+
+Update App.jsx routes to include:
+
+jsx
+Copy
+Edit
+<Route path="/visual-assets" element={<VisualAssets />} />
+Update the Progress Navigation (ProgressTabs) to include a new "Visual Assets" step between "Offer & USPs" and "Brand Reviews".
+
+✅ Key Rules
+No actual backend upload needed yet (only static frontend design).
+
+Must visually match the style of existing pages (clean, minimal, responsive).
+
+Proper routing and navigation must be implemented.
+
+In short: Create a "Visual Assets" upload page following the uploaded design system using Vite + React + TailwindCSS + React Router DOM, and integrate it properly into the navigation flow between Offer & USPs and Brand Reviews.
+

@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import BrandInfo from "./pages/BrandInfo";
 import Audience from "./pages/Audience";
 import OfferUSPs from "./pages/OfferUSPs";
+import VisualAssets from "./pages/VisualAssets";
 import BrandReviews from "./pages/BrandReviews";
 import Review from "./pages/Review";
 
@@ -28,6 +29,7 @@ function App() {
               <Route path="/" element={<BrandInfo />} />
               <Route path="/audience" element={<Audience />} />
               <Route path="/offer" element={<OfferUSPs />} />
+              <Route path="/visual-assets" element={<VisualAssets />} />
               <Route path="/reviews" element={<BrandReviews />} />
               <Route path="/review" element={<Review />} />
             </Routes>

@@ -1,0 +1,98 @@
+I have uploaded a new screenshot showing the Brand Reviews section of the creative brief builder UI.
+Please build the Brand Reviews page following these detailed instructions.
+
+⚡ Project Setup Reminder
+Continue using the existing Vite + React + TailwindCSS setup.
+
+Continue using React Router DOM for page routing.
+
+This BrandReviews.jsx page should be accessible at the /reviews route.
+
+🧩 Page Layout Structure
+Page Title:
+
+Main heading: Brand Reviews
+
+Small "Optional" label next to the title (small size text or badge).
+
+Subtext under title:
+
+"Upload customer reviews for AI analysis and better brief generation, or skip this step."
+
+Upload Section:
+
+Upload Reviews Button (simple input or button styled like the screenshot):
+
+Label: Upload Reviews
+
+Wide full width input/button above the upload area (currently just visual; no real functionality yet).
+
+Drag and Drop Upload Zone:
+
+Visual card with:
+
+Upload icon at the top (optional: use any placeholder or SVG upload icon).
+
+Title: Upload Customer Reviews
+
+Instruction text:
+
+"Drag and drop your reviews file or click to browse. We'll analyze the content to enhance your creative brief."
+
+Light grey dashed border rectangle inside:
+
+Label inside: Click to upload or drag and drop
+
+Subtext: "CSV, DOCX, PDF, or TXT file (up to 10MB)"
+
+Use Tailwind to design a dashed border area (border-dashed) and hover effects when hovered over.
+
+No real upload function needed yet — visual design only.
+
+🎨 Styling Details
+Use TailwindCSS to:
+
+Center align all upload-related text.
+
+Style the upload area with border-dashed, rounded-lg, p-10, and hover:bg-gray-100.
+
+Keep spacing clean between sections (space-y-8).
+
+Align upload input, text, and upload zone vertically.
+
+Use light grey backgrounds (bg-gray-50) where appropriate.
+
+Optional Badge for "Optional" text can be styled with:
+
+html
+Copy
+Edit
+<span className="ml-2 text-xs text-gray-500">(Optional)</span>
+placed next to the main title.
+
+🚀 Bottom Buttons
+Left bottom: Back button (goes to /offer page).
+
+Right bottom: Generate Summary button (styled like a primary button but no real function yet).
+
+You can style the Generate Summary button as dark blue background with white text (bg-indigo-900 text-white).
+
+📂 Folder Organization
+Save this page in /src/pages/BrandReviews.jsx.
+
+Import and reuse Navbar or ProgressTabs if already created.
+
+Modular and clean component design.
+
+✅ Key Rules
+No backend logic yet (upload button and drag/drop zone are visual only).
+
+No real validation or summary generation.
+
+Focus 100% on frontend structure and design as shown in the screenshots.
+
+Use Tailwind utility classes.
+
+Match exact layout, text, spacing, and styles based on the screenshot.
+
+In short: Build the "Brand Reviews" frontend page from my uploaded screenshots using Vite + React + TailwindCSS + React Router DOM, keeping it clean, modular, and ready for backend integration later.

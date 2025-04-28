@@ -1,0 +1,103 @@
+Instruction for Replit Agent:
+
+I have uploaded screenshots showing the layout I want.
+Please build the frontend exactly following the structure and design in the screenshots.
+
+Here are the detailed requirements:
+
+⚡ Project Setup:
+Use Vite + React (JavaScript) project.
+
+Install and configure TailwindCSS for styling.
+
+Install and configure React Router DOM for page routing.
+
+🧩 Component and Page Structure:
+Main Pages (under /src/pages):
+
+BrandInfo.jsx ➔ Shows the brand information form (Client/Brand Name, Industry dropdown, Product URL, Product List, Branding Guidelines upload).
+
+Audience.jsx ➔ Empty placeholder for now.
+
+OfferUSPs.jsx ➔ Empty placeholder for now.
+
+BrandReviews.jsx ➔ Empty placeholder for now.
+
+Review.jsx ➔ Empty placeholder for now.
+
+Global Components (under /src/components):
+
+Header.jsx ➔ Top navbar showing "Meta Ad Creative Brief Builder" and demo@example.com.
+
+ProgressTabs.jsx ➔ Horizontal progress bar showing steps: Brand Info, Audience, Offer & USPs, Brand Reviews, Review.
+
+Footer.jsx ➔ Bottom text showing Terms, Privacy, Help, and copyright.
+
+Router Setup (App.jsx):
+
+Set up a Routes block linking the main pages.
+
+Default route (/) should go to BrandInfo.jsx.
+
+Other routes (/audience, /offer, /reviews, /review) route to their respective pages.
+
+🎨 Design Details:
+Follow the visual layout shown in the screenshots exactly:
+
+Two columns for Client Name and Industry.
+
+Full width for Product/Brand URL and Product List.
+
+Show a highlighted warning text with an emoji below the Product List field.
+
+Branding Guidelines section with drag-and-drop upload UI (no actual upload logic needed yet, only frontend design).
+
+"Next: Audience" button aligned bottom-right under the form.
+
+Clean, minimal, centered layouts similar to the screenshots.
+
+TailwindCSS should be used for:
+
+Spacing
+
+Text size
+
+Borders
+
+Button styling
+
+Card layouts
+
+Responsive design.
+
+🚀 Technical Notes:
+No need to implement actual file upload yet (only the drag-and-drop area visually).
+
+No form validation needed yet (static input fields are fine).
+
+No backend/API connection.
+
+Everything should be cleanly separated into React components and organized under /src.
+
+📂 Folder Structure:
+css
+Copy
+Edit
+/public
+   └── index.html
+/src
+   ├── main.jsx
+   ├── App.jsx
+   ├── index.css
+   ├── components/
+        ├── Header.jsx
+        ├── ProgressTabs.jsx
+        ├── Footer.jsx
+   └── pages/
+        ├── BrandInfo.jsx
+        ├── Audience.jsx
+        ├── OfferUSPs.jsx
+        ├── BrandReviews.jsx
+        └── Review.jsx
+Please structure the code cleanly, use Tailwind classes appropriately, and match the screenshots in design.
+Focus only on the frontend, no backend logic yet.

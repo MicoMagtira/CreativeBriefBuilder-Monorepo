@@ -47,55 +47,62 @@ const Audience = () => {
           <p className="mt-1 text-sm text-gray-500">Define who you're trying to reach with this creative.</p>
           
           <div className="mt-6 space-y-6">
-            {/* Gender Selection */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Gender (optional)</label>
-              <div className="mt-2 flex space-x-3">
-                <div className="flex items-center">
-                  <input 
-                    id="male" 
-                    type="checkbox" 
-                    checked={formData.gender.male}
-                    onChange={() => handleGenderChange('male')}
-                    className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-                  />
-                  <label htmlFor="male" className="ml-2 text-sm text-gray-700">Male</label>
-                </div>
-                <div className="flex items-center">
-                  <input 
-                    id="female" 
-                    type="checkbox" 
-                    checked={formData.gender.female}
-                    onChange={() => handleGenderChange('female')}
-                    className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-                  />
-                  <label htmlFor="female" className="ml-2 text-sm text-gray-700">Female</label>
+            {/* Gender and Age Range in a single row */}
+            <div className="flex flex-wrap gap-6">
+              {/* Gender Selection */}
+              <div className="min-w-[200px]">
+                <label className="block text-sm font-medium text-gray-700">Gender (optional)</label>
+                <div className="mt-2 flex space-x-6">
+                  <div className="flex items-center">
+                    <input 
+                      id="male" 
+                      type="checkbox" 
+                      checked={formData.gender.male}
+                      onChange={() => handleGenderChange('male')}
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                    />
+                    <label htmlFor="male" className="ml-2 text-sm text-gray-700">Male</label>
+                  </div>
+                  <div className="flex items-center">
+                    <input 
+                      id="female" 
+                      type="checkbox" 
+                      checked={formData.gender.female}
+                      onChange={() => handleGenderChange('female')}
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                    />
+                    <label htmlFor="female" className="ml-2 text-sm text-gray-700">Female</label>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            {/* Age Range */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              {/* Age Range Min */}
               <div>
                 <label htmlFor="ageMin" className="block text-sm font-medium text-gray-700">Age Range (Min)</label>
                 <input 
-                  type="text" 
+                  type="number" 
                   name="ageMin" 
                   id="ageMin" 
+                  min="1"
+                  max="100"
                   placeholder="e.g. 25" 
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm h-10 px-3 border" 
+                  className="mt-1 block w-20 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm h-10 px-3 border" 
                   value={formData.ageMin}
                   onChange={handleChange}
                 />
               </div>
+              
+              {/* Age Range Max */}
               <div>
                 <label htmlFor="ageMax" className="block text-sm font-medium text-gray-700">Age Range (Max)</label>
                 <input 
-                  type="text" 
+                  type="number" 
                   name="ageMax" 
                   id="ageMax" 
+                  min="1"
+                  max="100"
                   placeholder="e.g. 35" 
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm h-10 px-3 border" 
+                  className="mt-1 block w-20 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm h-10 px-3 border" 
                   value={formData.ageMax}
                   onChange={handleChange}
                 />

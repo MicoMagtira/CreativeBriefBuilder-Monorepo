@@ -1,0 +1,112 @@
+I have uploaded new screenshots showing the Audience section of the creative brief builder UI.
+Please build the Audience page following these detailed requirements.
+
+⚡ Setup and Project Environment
+Continue using the existing Vite + React + TailwindCSS setup.
+
+Continue using React Router DOM for routing between pages.
+
+This Audience.jsx page should be accessible at the /audience route.
+
+🧩 Page Layout Structure
+Create the Audience page exactly based on the screenshots.
+
+Page Title:
+
+Main heading: Target Audience
+
+Subtext below: "Define who you're trying to reach with this creative."
+
+Input Sections:
+
+Gender (Optional):
+
+Two checkbox buttons labeled Male and Female.
+
+Allow multiple selections (not radio buttons, use checkboxes).
+
+Age Range:
+
+Two input fields side by side:
+
+Age Range (Min) (Placeholder: e.g., 25)
+
+Age Range (Max) (Placeholder: e.g., 35)
+
+Habits (Optional):
+
+Textarea field.
+
+Placeholder: "Describe daily habits — both in real life (e.g., working, commuting) and online (e.g., social platforms, apps, buying behavior)."
+
+Customer Pain Points:
+
+Textarea field.
+
+Placeholder: "What specific problem(s) does the product solve for the customer? Be detailed — include emotional and functional issues."
+
+Emotions to Align With (Optional):
+
+Textarea field.
+
+Placeholder: "What emotions should the product generate or reinforce in the audience? (e.g., confidence, security, ambition)"
+
+Audience Values and Beliefs (Optional):
+
+Textarea field.
+
+Placeholder: "What core values or beliefs does this audience hold? (e.g., sustainability, independence, productivity)"
+
+Information Box ("Customer Mindstates"):
+
+Light blue background with information icon.
+
+Text:
+
+"Our AI will analyze your inputs and automatically identify the most relevant customer mindstates for your target audience. This helps create more emotionally resonant ad creative without requiring you to manually select mindstates."
+
+Style it as a lightly bordered info box using Tailwind (rounded corners, light blue background, small info icon if possible).
+
+🎨 Styling Details
+Use TailwindCSS for:
+
+Responsive grid layouts (especially for side-by-side inputs like Age Range Min/Max).
+
+Proper spacing between form fields (e.g., space-y-6).
+
+Input styling (rounded borders, padding).
+
+Button design for Gender checkboxes.
+
+Light info box (bg-blue-100, rounded-lg, p-4).
+
+Inputs and textareas should be:
+
+Full width unless otherwise shown.
+
+Uniformly styled with consistent margins and padding.
+
+🚀 Buttons (Bottom of Page)
+Left bottom: Back button (goes to / or Brand Info).
+
+Right bottom: Next: Offer & USPs → button (goes to /offer route).
+
+Buttons should be styled consistently (use Tailwind rounded buttons with hover effects).
+
+📂 Folder Organization
+Save this page in /src/pages/Audience.jsx.
+
+Import and use the Navbar or ProgressTabs if already made, so the user knows they are on the "Audience" step.
+
+✅ Key Rules
+No backend/API needed yet.
+
+No real form validation yet (inputs are static for now).
+
+Just replicate the UI structure and styling exactly as per screenshots.
+
+React components, Tailwind utility classes only.
+
+Keep code modular and clean.
+
+In short: Replicate the "Audience" section form exactly from my uploaded screenshots using Vite + React + TailwindCSS + React Router, in a clean modular React component inside /pages/Audience.jsx.

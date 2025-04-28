@@ -55,9 +55,12 @@ const ProgressTabs = () => {
   ];
 
   const isActive = (path) => {
+    // For root path
     if (path === '/' && pathname === '/') return true;
-    if (path !== '/' && pathname.startsWith(path)) return true;
-    return false;
+    
+    // For other paths, use exact matching to avoid partial matches
+    // This ensures that '/reviews' and '/review' don't both get highlighted
+    return path === pathname;
   };
 
   return (

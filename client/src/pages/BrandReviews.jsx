@@ -12,7 +12,7 @@ const BrandReviews = () => {
   };
 
   const handleBack = () => {
-    navigate('/offer');
+    navigate('/visual-assets');
   };
 
   const handleDragOver = (e) => {

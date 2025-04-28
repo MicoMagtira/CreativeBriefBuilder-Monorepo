@@ -52,7 +52,7 @@ const OfferUSPs = () => {
   };
 
   const handleNext = () => {
-    navigate('/reviews');
+    navigate('/visual-assets');
   };
 
   const handleBack = () => {

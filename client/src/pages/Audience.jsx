@@ -8,8 +8,7 @@ const Audience = () => {
       male: false,
       female: false
     },
-    ageMin: '',
-    ageMax: '',
+    ageRange: '',
     habits: '',
     painPoints: '',
     emotions: '',
@@ -76,54 +75,22 @@ const Audience = () => {
                 </div>
               </div>
               
-              {/* Age Range Min */}
+              {/* Age Range as a single field */}
               <div>
-                <label htmlFor="ageMin" className="block text-sm font-medium text-gray-700">Age Range (Min)</label>
+                <label htmlFor="ageRange" className="block text-sm font-medium text-gray-700">Age Range</label>
                 <input 
-                  type="number" 
-                  name="ageMin" 
-                  id="ageMin" 
-                  min="1"
-                  max="100"
-                  placeholder="e.g. 25" 
-                  className="mt-1 block w-20 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm h-10 px-3 border" 
-                  value={formData.ageMin}
-                  onChange={handleChange}
-                />
-              </div>
-              
-              {/* Age Range Max */}
-              <div>
-                <label htmlFor="ageMax" className="block text-sm font-medium text-gray-700">Age Range (Max)</label>
-                <input 
-                  type="number" 
-                  name="ageMax" 
-                  id="ageMax" 
-                  min="1"
-                  max="100"
-                  placeholder="e.g. 35" 
-                  className="mt-1 block w-20 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm h-10 px-3 border" 
-                  value={formData.ageMax}
+                  type="text" 
+                  name="ageRange" 
+                  id="ageRange" 
+                  placeholder="e.g., 13-19" 
+                  className="mt-1 block w-40 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm h-10 px-3 border" 
+                  value={formData.ageRange}
                   onChange={handleChange}
                 />
               </div>
             </div>
             
-            {/* Habits */}
-            <div>
-              <label htmlFor="habits" className="block text-sm font-medium text-gray-700">Habits (optional)</label>
-              <textarea 
-                id="habits" 
-                name="habits" 
-                rows="3" 
-                placeholder="Describe daily habits — both in real life (e.g., working, commuting) and online (e.g., social platforms, apps, buying behavior)." 
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
-                value={formData.habits}
-                onChange={handleChange}
-              ></textarea>
-            </div>
-            
-            {/* Customer Pain Points */}
+            {/* Customer Pain Points - moved up */}
             <div>
               <label htmlFor="painPoints" className="block text-sm font-medium text-gray-700">Customer Pain Points</label>
               <textarea 
@@ -161,6 +128,20 @@ const Audience = () => {
                 placeholder="What core values or beliefs does this audience hold? (e.g., sustainability, independence, productivity)" 
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
                 value={formData.values}
+                onChange={handleChange}
+              ></textarea>
+            </div>
+            
+            {/* Renamed "Habits" to "Habits and Demographics" */}
+            <div>
+              <label htmlFor="habits" className="block text-sm font-medium text-gray-700">Habits and Demographics (optional)</label>
+              <textarea 
+                id="habits" 
+                name="habits" 
+                rows="3" 
+                placeholder="Describe daily habits, activities, and lifestyle patterns (e.g., working routines, commuting habits, app usage, hobbies)." 
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
+                value={formData.habits}
                 onChange={handleChange}
               ></textarea>
             </div>

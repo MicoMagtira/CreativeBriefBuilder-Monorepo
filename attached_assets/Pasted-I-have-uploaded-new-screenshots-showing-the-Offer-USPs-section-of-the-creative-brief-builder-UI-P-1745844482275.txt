@@ -1,0 +1,107 @@
+I have uploaded new screenshots showing the Offer & USPs section of the creative brief builder UI.
+Please build the Offer & USPs page according to the following detailed instructions.
+
+⚡ Project Setup Reminder
+Continue using the existing Vite + React + TailwindCSS setup.
+
+Continue using React Router DOM for routing between pages.
+
+This OfferUSPs.jsx page should be accessible at the /offer route.
+
+🧩 Page Layout Structure
+Page Title:
+
+Main heading: Offer & USPs
+
+Subtext: "Define what makes your product valuable and unique."
+
+✏️ Form Sections to Build:
+Offer – What is being offered to customers?
+
+A textarea input.
+
+Placeholder example:
+
+"e.g. 50% off our Metabolic Fix / Cellular Hydration collection. https://example.com/products"
+
+Small description above: "Provide details on the product/collection, any promotion/incentive you wish to include. Add the product/collection URL."
+
+Unique Selling Points (USPs)
+
+Section for listing 3–5 USPs.
+
+Include an "Add another USP" clickable button that allows dynamically adding more USP input fields.
+
+For now, adding fields can be static (just add an empty input box below on click, no need for complex dynamic form yet).
+
+Each USP is an input or textarea styled similarly to Tailwind input designs.
+
+Small description above: "List 3–5 unique selling points tailored to the audience and pain points you identified earlier. Think about emotional, functional, or lifestyle benefits that truly differentiate your product."
+
+Format Selection
+
+A grid layout of selectable cards (buttons) for ad formats.
+
+Each format option should look like a card/button with:
+
+Icon (use any placeholder icon, optional for now)
+
+Title (e.g., Single Image, Carousel, Video, Story, Founder Video, UGC, TikTok UGC, TikTok Story)
+
+Subtitle (e.g., "Static visual with text overlay", "Swipeable multi-card format", etc.)
+
+Clicking on a format should toggle selection (change card background slightly when selected).
+
+Arrange formats in a responsive grid (e.g., grid-cols-3 on desktop, grid-cols-2 on tablet).
+
+Enable Diversity Overrides
+
+A toggle switch with label: "Enable Diversity Overrides".
+
+Description under toggle: "Override the AI diversity selection system".
+
+Switch can be a simple Tailwind-styled toggle button (not functional yet, only frontend).
+
+Diversity Analysis
+
+Just a label/text ("Diversity Analysis") — no functionality yet.
+
+🎨 Styling Details
+Use TailwindCSS for:
+
+Grid layouts (responsive cards for Format Selection).
+
+Toggle switches (peer classes for input toggles).
+
+Spacing between sections (space-y-8, space-y-6 etc.).
+
+Card hover/focus states.
+
+Inputs with consistent padding, margins, and rounded corners.
+
+Button styling for "Add another USP" and navigation buttons.
+
+🚀 Bottom Navigation Buttons
+Left bottom: Back button (goes to /audience page).
+
+Right bottom: Next: Visual Assets → button (next step/page).
+
+Buttons should be styled consistently across all pages.
+
+📂 Folder Organization
+Save this page in /src/pages/OfferUSPs.jsx.
+
+Import and reuse Navbar or ProgressTabs if already created.
+
+Modular code, clean structure.
+
+✅ Important Rules
+No backend or real functionality yet (e.g., toggles and add USP are just static frontend interactions).
+
+No real validation.
+
+Focus 100% on matching the structure and style shown in the screenshots.
+
+React + Tailwind utility classes only.
+
+In short: Build the "Offer & USPs" form exactly from my uploaded screenshots using Vite + React + TailwindCSS + React Router DOM, following clean modular component practices.

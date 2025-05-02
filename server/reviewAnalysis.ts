@@ -7,8 +7,12 @@ console.log('[Startup] reviewAnalysis router initializing');
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } }); // 10MB, memory storage
 
+// Async handler utility for Express
+const asyncHandler = (fn: any) => (req: Request, res: Response, next: any) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
+
 // POST /api/brand-reviews/analyze
-router.post('/analyze', upload.single('reviews'), async (req: Request, res: Response) => {
+router.post('/analyze', upload.single('reviews'), asyncHandler(async (req: Request, res: Response) => {
   try {
     // Accept both 'reviews' and 'file' field names
     const file = (req as any).file;
@@ -32,6 +36,6 @@ router.post('/analyze', upload.single('reviews'), async (req: Request, res: Resp
   } catch (e: any) {
     res.status(500).json({ error: e?.message || 'Failed to analyze reviews' });
   }
-});
+}));
 
 export default router;

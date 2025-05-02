@@ -10,10 +10,17 @@
     "strict": true,
     "skipLibCheck": true,
     "baseUrl": "..",
+    "types": ["node"],                     // ✅ Ensures Node.js types are included
     "paths": {
       "@shared/*": ["../shared/*"]
     }
   },
-  "include": ["*.ts", "./**/*.ts"],
-  "exclude": ["dist", "node_modules"]
+  "include": [
+    "**/*.ts",                            // ✅ Covers all TS files in subfolders
+    "../shared/**/*"                      // ✅ Ensures shared path works with relative resolution
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }

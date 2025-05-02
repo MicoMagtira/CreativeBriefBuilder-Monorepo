@@ -1,0 +1,14 @@
+{
+  "client": {
+    "root": "client",
+    "buildCommand": "npm run build",
+    "outputDir": "client/dist"
+  },
+  "server": {
+    "root": "server",
+    "startCommand": "npm start",
+    "env": {
+      "PORT": "8080"
+    }
+  }
+}

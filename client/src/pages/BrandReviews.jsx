@@ -1,14 +1,40 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useSaveBriefSection } from '../hooks/useSaveBriefSection';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const BrandReviews = () => {
+  const { saveSection } = useSaveBriefSection();
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
+  const [aiInsights, setAiInsights] = useState('');
+  const [success, setSuccess] = useState(false);
 
-  const handleNext = () => {
-    navigate('/review');
+  // Example: get briefId from context or props if available
+  // Replace this with your actual context/provider
+  const briefId = window.localStorage.getItem('briefId') || undefined; // replace with your logic
+
+  // Generate structured summary and redirect to Reviews on success
+  const [summaryLoading, setSummaryLoading] = useState(false);
+  const [summaryError, setSummaryError] = useState('');
+
+  const handleGenerateSummary = async () => {
+    setSummaryLoading(true);
+    setSummaryError('');
+    try {
+      if (!briefId) throw new Error('No brief ID found.');
+      await axios.post(`/api/briefs/${briefId}/generate-summary`);
+      navigate('/review');
+    } catch (e) {
+      setSummaryError(e.message || 'Failed to generate summary.');
+    } finally {
+      setSummaryLoading(false);
+    }
   };
 
   const handleBack = () => {
@@ -29,13 +55,49 @@ const BrandReviews = () => {
     e.preventDefault();
     setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      setSelectedFile(e.dataTransfer.files[0]);
+      const file = e.dataTransfer.files[0];
+      // Validate file type
+      const allowedTypes = ['text/csv', 'text/plain', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      const allowedExts = ['.csv', '.txt', '.pdf', '.docx'];
+      const isValidType = allowedTypes.includes(file.type) || allowedExts.some(ext => file.name.endsWith(ext));
+      if (!isValidType) {
+        setAiError('Invalid file type. Please upload a CSV, TXT, PDF, or DOCX file.');
+        setSelectedFile(null);
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        setAiError('File size exceeds 10MB limit.');
+        setSelectedFile(null);
+        return;
+      }
+      setSelectedFile(file);
+      setAiInsights('');
+      setAiError('');
+      setSuccess(false);
     }
   };
 
   const handleFileInput = (e) => {
     if (e.target.files && e.target.files.length > 0) {
-      setSelectedFile(e.target.files[0]);
+      const file = e.target.files[0];
+      // Validate file type
+      const allowedTypes = ['text/csv', 'text/plain', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      const allowedExts = ['.csv', '.txt', '.pdf', '.docx'];
+      const isValidType = allowedTypes.includes(file.type) || allowedExts.some(ext => file.name.endsWith(ext));
+      if (!isValidType) {
+        setAiError('Invalid file type. Please upload a CSV, TXT, PDF, or DOCX file.');
+        setSelectedFile(null);
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        setAiError('File size exceeds 10MB limit.');
+        setSelectedFile(null);
+        return;
+      }
+      setSelectedFile(file);
+      setAiInsights('');
+      setAiError('');
+      setSuccess(false);
     }
   };
 
@@ -45,9 +107,34 @@ const BrandReviews = () => {
     }
   };
 
+  const handleUpload = async () => {
+    if (!selectedFile) return;
+    setAiLoading(true);
+    setAiError('');
+    setSuccess(false);
+    try {
+      const formData = new FormData();
+      formData.append('reviews', selectedFile); // must match backend field
+      if (briefId) formData.append('briefId', briefId);
+      const response = await axios.post('/api/brand-reviews/analyze', formData);
+      setAiInsights(response.data.insights);
+      setSuccess(true);
+      // Save insights to brief only after successful analysis
+      if (briefId && response.data.insights) {
+        await saveSection('brandReviews', { briefId, reviews: [response.data.insights] });
+      }
+    } catch (error) {
+      setAiError(error.message);
+      setSuccess(false);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+
         <div className="px-4 py-5 sm:p-6">
           <div className="flex items-center">
             <h2 className="text-xl font-bold text-gray-900">Brand Reviews</h2>
@@ -72,7 +159,7 @@ const BrandReviews = () => {
                 type="file"
                 className="hidden"
                 onChange={handleFileInput}
-                accept=".csv,.docx,.pdf,.txt"
+                accept=".csv,.txt,.pdf,.docx"
               />
             </div>
             
@@ -127,33 +214,75 @@ const BrandReviews = () => {
                     Selected file: {selectedFile.name}
                   </div>
                 )}
+                
+                {aiLoading ? (
+                  <div className="mt-4 text-sm text-gray-500">
+                    Analyzing reviews...
+                  </div>
+                ) : aiError ? (
+                  <div className="mt-4 text-sm text-red-500">
+                    Error: {aiError}
+                  </div>
+                ) : null}
+
+                {/* Show AI Insights below upload area, formatted and prominent */}
+                {!aiLoading && !aiError && (
+                  <div className="mt-6 w-full bg-blue-50 border border-blue-200 rounded p-6 text-gray-900 shadow">
+                    <h3 className="font-bold mb-2 text-lg text-blue-900">AI Review Insights</h3>
+                    {aiInsights
+                      ? <pre className="whitespace-pre-wrap text-sm">{aiInsights}</pre>
+                      : <div className="text-gray-500 italic">No insights generated. Try a different file or check your file format.</div>
+                    }
+                  </div>
+                )}
               </div>
             </div>
             
-            {/* Navigation Buttons */}
-            <div className="mt-8 flex justify-between">
+            {selectedFile && (
+              <div className="mt-4 text-sm text-gray-500">
+                Selected file: {selectedFile.name}
+              </div>
+            )}
+            <div className="flex flex-col sm:flex-row w-full justify-between mt-8 gap-4">
               <button
                 type="button"
                 onClick={handleBack}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
                 </svg>
                 Back
               </button>
-              
+              {selectedFile && (
+                <button
+                  type="button"
+                  onClick={handleUpload}
+                  className="inline-flex items-center justify-center px-6 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 w-full sm:w-auto disabled:opacity-60"
+                  disabled={aiLoading}
+                >
+                  {aiLoading ? (
+  <span className="flex items-center"><LoadingSpinner size={20} color="text-white" />Analyzing...</span>
+) : (
+  'Analyze Reviews'
+)}
+                </button>
+              )}
               <button
                 type="button"
-                onClick={handleNext}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-900 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700"
+                onClick={handleGenerateSummary}
+                className="inline-flex items-center justify-center px-6 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-900 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 w-full sm:w-auto disabled:opacity-60"
+                disabled={summaryLoading || aiLoading}
               >
-                Generate Summary
-                <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                </svg>
+                {summaryLoading ? (
+                  <span className="flex items-center"><LoadingSpinner size={20} color="text-white" />Generating...</span>
+                ) : (
+                  'Generate Summary'
+                )}
               </button>
             </div>
+            {aiError && <div className="text-red-600 text-sm mt-2 text-center w-full">{aiError}</div>}
+            {summaryError && <div className="text-red-600 text-sm mt-2 text-center w-full">{summaryError}</div>}
           </div>
         </div>
       </div>

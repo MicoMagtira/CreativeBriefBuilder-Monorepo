@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import { toast } from '../hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
+import { useBriefId } from '../contexts/BriefIdContext';
+import { useSaveBriefSection } from '../hooks/useSaveBriefSection';
 
 const BrandInfo = () => {
   const navigate = useNavigate();
+  const { briefId, setBriefId } = useBriefId();
+  const { loading, error, success, saveSection } = useSaveBriefSection();
   const [formData, setFormData] = useState({
     clientName: '',
     industry: '',
@@ -10,16 +15,47 @@ const BrandInfo = () => {
     productList: '',
     brandGuidelines: '',
   });
+  const [errors, setErrors] = useState({ clientName: '', industry: '', productList: '' });
+
+  const validate = () => {
+    const newErrors = { clientName: '', industry: '', productList: '' };
+    let hasError = false;
+    if (!formData.clientName.trim()) {
+      newErrors.clientName = 'Client/Brand Name is required.';
+      hasError = true;
+    }
+    if (!formData.industry.trim()) {
+      newErrors.industry = 'Industry is required.';
+      hasError = true;
+    }
+    if (!formData.productList.trim()) {
+      newErrors.productList = 'Product List is required.';
+      hasError = true;
+    }
+    setErrors(newErrors);
+    return !hasError;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setErrors({ ...errors, [name]: '' });
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/audience');
+    if (!validate()) return;
+    const data = { ...formData };
+    if (briefId) data.briefId = briefId;
+    const returnedBriefId = await saveSection('brandInfo', data);
+    if (returnedBriefId) {
+      setBriefId(returnedBriefId);
+      toast({ title: 'Brand Info Saved', description: 'Brand information saved successfully!', variant: 'default' });
+      navigate('/audience');
+    }
   };
+  // Removed duplicate hook and handler declarations below this point.
+  // (All duplicate blocks removed for lint compliance)
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -30,6 +66,13 @@ const BrandInfo = () => {
           
           <div className="mt-6">
             <form onSubmit={handleSubmit}>
+  {(errors.clientName || errors.industry || errors.productList) && (
+    <div className="mb-4 text-red-600 font-semibold bg-red-50 border border-red-200 rounded p-2">
+      {errors.clientName && <div>{errors.clientName}</div>}
+      {errors.industry && <div>{errors.industry}</div>}
+      {errors.productList && <div>{errors.productList}</div>}
+    </div>
+  )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="clientName" className="block text-sm font-medium text-gray-700">Client/Brand Name</label>
@@ -137,10 +180,14 @@ const BrandInfo = () => {
                 </div>
               </div>
 
-              <div className="mt-8 flex justify-end">
+              <div className="mt-8 flex flex-col items-end space-y-2">
+                {loading && <span className="text-blue-600">Saving...</span>}
+                {error && <span className="text-red-600">{error}</span>}
+                {success && <span className="text-green-600">Saved!</span>}
                 <button 
                   type="submit" 
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  disabled={loading}
                 >
                   Next: Audience
                   <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import { toast } from '../hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
+import { useBriefId } from '../contexts/BriefIdContext';
+import { useSaveBriefSection } from '../hooks/useSaveBriefSection';
 
 const Audience = () => {
   const navigate = useNavigate();
+  const { briefId, setBriefId } = useBriefId();
+  const { loading, error, success, saveSection } = useSaveBriefSection();
   const [formData, setFormData] = useState({
     gender: {
       male: false,
@@ -14,8 +19,25 @@ const Audience = () => {
     emotions: '',
     values: ''
   });
+  const [errors, setErrors] = useState({ ageRange: '', painPoints: '' });
+
+  const validate = () => {
+    const newErrors = { ageRange: '', painPoints: '' };
+    let hasError = false;
+    if (!formData.ageRange.trim()) {
+      newErrors.ageRange = 'Age Range is required.';
+      hasError = true;
+    }
+    if (!formData.painPoints.trim()) {
+      newErrors.painPoints = 'Customer Pain Points are required.';
+      hasError = true;
+    }
+    setErrors(newErrors);
+    return !hasError;
+  };
 
   const handleGenderChange = (gender) => {
+    setErrors({ ...errors });
     setFormData({
       ...formData,
       gender: {
@@ -27,12 +49,43 @@ const Audience = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const newFormData = { ...formData, [name]: value };
+    setFormData(newFormData);
+
+    // Re-run validation after updating form data
+    const newErrors = { ageRange: '', painPoints: '' };
+    if (!newFormData.ageRange.trim()) {
+      newErrors.ageRange = 'Age Range is required.';
+    }
+    if (!newFormData.painPoints.trim()) {
+      newErrors.painPoints = 'Customer Pain Points are required.';
+    }
+    setErrors(newErrors);
   };
 
-  const handleNext = () => {
-    navigate('/offer');
+  const handleNext = async () => {
+    const isValid = validate();
+    if (!isValid) {
+      return;
+    }
+    const data = {
+      ageRange: formData.ageRange,
+      gender: formData.gender,
+      customerPainPoints: formData.painPoints,
+      emotionsToAlignWith: formData.emotions,
+      audienceValuesAndBeliefs: formData.values,
+      habitsAndDemographics: formData.habits,
+    };
+    if (briefId) data.briefId = briefId;
+    const returnedBriefId = await saveSection('audience', data);
+    if (returnedBriefId) {
+      setBriefId(returnedBriefId);
+      toast({ title: 'Audience Saved', description: 'Audience section saved successfully!', variant: 'default' });
+      navigate('/offer');
+    }
   };
+  // Removed duplicate hook and handler declarations below this point.
+  // (All duplicate blocks removed for lint compliance)
 
   const handleBack = () => {
     navigate('/');
@@ -164,7 +217,16 @@ const Audience = () => {
             </div>
             
             {/* Navigation Buttons */}
-            <div className="mt-8 flex justify-between">
+            {(errors.ageRange || errors.painPoints) && (
+              <div className="mb-4 text-red-600 font-semibold bg-red-50 border border-red-200 rounded p-2">
+                {errors.ageRange && <div>{errors.ageRange}</div>}
+                {errors.painPoints && <div>{errors.painPoints}</div>}
+              </div>
+            )}
+            {loading && <span className="text-blue-600">Saving...</span>}
+            {error && <span className="text-red-600">{error}</span>}
+            {success && <span className="text-green-600">Saved!</span>}
+            <div className="mt-8 flex justify-between items-end space-y-2">
               <button
                 type="button"
                 onClick={handleBack}
@@ -175,11 +237,14 @@ const Audience = () => {
                 </svg>
                 Back
               </button>
-              
+              {loading && <span className="text-blue-600">Saving...</span>}
+              {error && <span className="text-red-600">{error}</span>}
+              {success && <span className="text-green-600">Saved!</span>}
               <button
                 type="button"
                 onClick={handleNext}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                disabled={loading}
               >
                 Next: Offer & USPs
                 <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

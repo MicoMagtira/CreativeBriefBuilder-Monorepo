@@ -58,11 +58,11 @@ const BrandInfo = () => {
   // (All duplicate blocks removed for lint compliance)
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <h2 className="text-xl font-bold text-gray-900">Brand Information</h2>
-          <p className="mt-1 text-sm text-gray-500">Let's start with some basic information about the brand and project.</p>
+    <div className="min-h-[calc(100vh-112px)] flex items-center justify-center bg-gray-50 py-8">
+      <div className="w-full max-w-2xl bg-white shadow-lg rounded-xl border border-gray-100">
+        <div className="px-6 py-8">
+          <h2 className="text-2xl font-bold text-gray-900">Brand Information</h2>
+          <p className="mt-2 text-base text-gray-500">Let's start with some basic information about the brand and project.</p>
           
           <div className="mt-6">
             <form onSubmit={handleSubmit}>
@@ -127,9 +127,9 @@ const BrandInfo = () => {
               </div>
               
               <div className="mt-6">
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                   <label htmlFor="productList" className="block text-sm font-medium text-gray-700">Product List</label>
-                  <span className="text-xs text-green-600 font-medium">Required</span>
+                  <span className="text-xs font-semibold text-green-600">Required</span>
                 </div>
                 <textarea 
                   id="productList" 
@@ -140,11 +140,11 @@ const BrandInfo = () => {
                   value={formData.productList}
                   onChange={handleChange}
                 ></textarea>
-                <p className="mt-2 text-sm text-orange-600 flex items-start">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-1 flex-shrink-0 mt-0.5">
-                    <path fillRule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
+                <p className="mt-2 text-xs text-orange-500 flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 mr-1 flex-shrink-0 mt-0.5">
+                    <path fillRule="evenodd" d="M8.257 3.099c.366-.446.993-.446 1.359 0l6.518 7.948c.457.557.045 1.403-.68 1.403H3.903c-.725 0-1.137-.846-.68-1.403l6.518-7.948zM11 13a1 1 0 11-2 0 1 1 0 012 0z" clipRule="evenodd" />
                   </svg>
-                  <span>⚠️ These products will appear in the 'Product List' section of your brief. Adding products here gives you full control over what appears in your brief.</span>
+                  <span>These products will appear in the 'Product List' section of your brief. Adding products here gives you full control over what appears in your brief.</span>
                 </p>
               </div>
               

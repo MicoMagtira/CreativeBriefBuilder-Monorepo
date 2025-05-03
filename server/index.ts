@@ -10,7 +10,10 @@ app.use(express.urlencoded({ extended: false }));
 // CORS middleware for Render + Netlify
 import cors from 'cors';
 app.use(cors({
-  origin: 'https://creative-brief-builder.windsurf.build', // Netlify frontend
+  origin: [
+    'https://creativebriefbuilder.netlify.app', // Netlify deployed frontend
+    'https://creative-brief-builder.windsurf.build' // Legacy/dev domain
+  ],
   credentials: true
 }));
 

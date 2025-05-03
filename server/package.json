@@ -16,19 +16,21 @@
     "drizzle-orm": "^0.43.1",
     "drizzle-zod": "^0.7.1",
     "express": "^4.21.2",
-    "formidable": "^3.5.4",
+
     "fs": "^0.0.1-security",
     "fs-extra": "^11.3.0",
     "http": "^0.0.1-security",
     "mammoth": "^1.9.0",
     "multer": "^1.4.5-lts.2",
-    "nanoid": "^5.0.2",
     "openai": "^4.96.2",
     "path": "^0.12.7",
-    "pdf-parse": "^1.1.1",
     "uuid": "^9.0.1",
     "vite": "^6.3.4",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+
+
+    "pdf-parse": "^1.1.1",
+    "nanoid": "^5.0.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

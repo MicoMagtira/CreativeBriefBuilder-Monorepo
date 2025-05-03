@@ -45,7 +45,7 @@ export interface BrandInfo {
   aiSummaries?: AISummary[];
 }
 
-export const BRIEFS_DIR = path.join(process.cwd(), "server", "briefs");
+export const BRIEFS_DIR = path.resolve(__dirname, "briefs");
 
 export function ensureBriefsDir(): void {
   if (!fs.existsSync(BRIEFS_DIR)) {

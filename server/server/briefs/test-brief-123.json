@@ -1,0 +1,33 @@
+{
+  "briefId": "test-brief-123",
+  "createdAt": "2025-05-03T07:22:08.348Z",
+  "audience": {
+    "ageRange": "18-34",
+    "gender": [
+      "Male",
+      "Female"
+    ],
+    "customerPainPoints": "Expensive shoes",
+    "emotionsToAlignWith": "Confidence",
+    "audienceValuesAndBeliefs": "Performance",
+    "habitsAndDemographics": "Active, urban"
+  },
+  "offers": {
+    "mainOffer": "Buy 1 Get 1",
+    "usps": [
+      "Limited time",
+      "Best value",
+      "Popular"
+    ],
+    "selectedFormats": {
+      "video": true,
+      "carousel": false
+    }
+  },
+  "brandReviews": {
+    "reviews": [
+      "Great shoes!",
+      "Love the comfort."
+    ]
+  }
+}

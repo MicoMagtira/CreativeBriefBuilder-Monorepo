@@ -146,6 +146,18 @@ export async function registerRoutes(app: Application): Promise<http.Server> {
 
   app.patch("/api/briefs/:id", asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
+    const fs = require('fs');
+    const path = require('path');
+    const BRIEFS_DIR = path.join(__dirname, 'briefs');
+    const filePath = path.join(BRIEFS_DIR, `${id}.json`);
+    if (!fs.existsSync(BRIEFS_DIR)) {
+      fs.mkdirSync(BRIEFS_DIR, { recursive: true });
+    }
+    if (!fs.existsSync(filePath)) {
+      // Auto-create file if missing
+      fs.writeFileSync(filePath, JSON.stringify({ briefId: id, createdAt: new Date().toISOString() }, null, 2), 'utf-8');
+      console.log(`[PATCH] /api/briefs/${id} | File auto-created before patch.`);
+    }
     console.log(`[PATCH] /api/briefs/${id} | Body:`, JSON.stringify(req.body));
     const updated = patchBrandInfo(id, req.body);
     if (!updated) {

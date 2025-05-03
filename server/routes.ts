@@ -3,14 +3,14 @@ import * as http from "http";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-import { saveBrandInfo, getBrandInfo, updateAudienceInfo, updateOffersInfo, updateVisualAssetsInfo, updateBrandReviewsInfo, updateBrandInfo, patchBrandInfo, type BrandInfo, type AudienceInfo, type OffersInfo, type VisualAssetsInfo, type BrandReviewsInfo } from "./briefInfo.js";
+import { saveBrandInfo, getBrandInfo, updateAudienceInfo, updateOffersInfo, updateVisualAssetsInfo, updateBrandReviewsInfo, updateBrandInfo, patchBrandInfo, BRIEFS_DIR, type BrandInfo, type AudienceInfo, type OffersInfo, type VisualAssetsInfo, type BrandReviewsInfo } from "./briefInfo.js";
 import { analyzeUploadHandler } from './analyzeUpload.js';
 import { generateBriefSummaryHandler } from './aiBriefSummary.js';
 import reviewAnalysisRouter from './reviewAnalysis.js';
 import { generateBriefDocx } from './services/docxBriefGenerator.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 console.log('[Startup] reviewAnalysis router loaded');
 
@@ -29,7 +29,6 @@ export async function registerRoutes(app: Application): Promise<http.Server> {
 
   app.post("/api/briefs/save-section", asyncHandler(async (req: Request, res: Response) => {
     const { section, briefId, ...fields } = req.body || {};
-    const BRIEFS_DIR = path.join(__dirname, 'briefs');
     if (!fs.existsSync(BRIEFS_DIR)) {
       fs.mkdirSync(BRIEFS_DIR, { recursive: true });
     }
@@ -147,9 +146,6 @@ export async function registerRoutes(app: Application): Promise<http.Server> {
 
   app.patch("/api/briefs/:id", asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const fs = require('fs');
-    const path = require('path');
-    const BRIEFS_DIR = path.join(__dirname, 'briefs');
     const filePath = path.join(BRIEFS_DIR, `${id}.json`);
     if (!fs.existsSync(BRIEFS_DIR)) {
       fs.mkdirSync(BRIEFS_DIR, { recursive: true });

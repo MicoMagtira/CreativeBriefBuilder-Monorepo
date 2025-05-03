@@ -1,6 +1,10 @@
 import * as fs from "node:fs";
-import * as path from "node:path";
+import path from "path";
+import { fileURLToPath } from "url";
 import { v4 as uuidv4 } from "uuid";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export interface AudienceInfo {
   ageRange: string;

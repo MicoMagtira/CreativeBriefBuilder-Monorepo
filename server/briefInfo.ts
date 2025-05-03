@@ -96,47 +96,88 @@ export function patchBrandInfo(briefId: string, patch: Partial<BrandInfo>): bool
 }
 
 export function updateAudienceInfo(briefId: string, audience: AudienceInfo): boolean {
-  ensureBriefsDir();
-  const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
-  if (!fs.existsSync(filePath)) return false;
-  const data = JSON.parse(fs.readFileSync(filePath, "utf-8")) as BrandInfo;
-  data.audience = audience;
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-  return true;
+  try {
+    ensureBriefsDir();
+    const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
+    console.log(`[updateAudienceInfo] File path: ${filePath}`);
+    if (!fs.existsSync(filePath)) {
+      // Auto-create file with minimal structure
+      fs.writeFileSync(filePath, JSON.stringify({ briefId, createdAt: new Date().toISOString() }, null, 2), 'utf-8');
+      console.log(`[updateAudienceInfo] File auto-created.`);
+    }
+    const data = JSON.parse(fs.readFileSync(filePath, "utf-8")) as BrandInfo;
+    data.audience = audience;
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+    return true;
+  } catch (err) {
+    console.error(`[updateAudienceInfo] Error:`, err);
+    return false;
+  }
 }
 
 export function updateOffersInfo(briefId: string, offers: OffersInfo): boolean {
-  ensureBriefsDir();
-  const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
-  if (!fs.existsSync(filePath)) return false;
-  // Validation
-  if (!offers.mainOffer || !Array.isArray(offers.usps) || offers.usps.length < 3) {
+  try {
+    ensureBriefsDir();
+    const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
+    console.log(`[updateOffersInfo] File path: ${filePath}`);
+    if (!fs.existsSync(filePath)) {
+      // Auto-create file with minimal structure
+      fs.writeFileSync(filePath, JSON.stringify({ briefId, createdAt: new Date().toISOString() }, null, 2), 'utf-8');
+      console.log(`[updateOffersInfo] File auto-created.`);
+    }
+    // Validation
+    if (!offers.mainOffer || !Array.isArray(offers.usps) || offers.usps.length < 3) {
+      console.error(`[updateOffersInfo] Invalid offers payload.`);
+      return false;
+    }
+    const data = JSON.parse(fs.readFileSync(filePath, "utf-8")) as BrandInfo;
+    data.offers = offers;
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+    return true;
+  } catch (err) {
+    console.error(`[updateOffersInfo] Error:`, err);
     return false;
   }
-  const data = JSON.parse(fs.readFileSync(filePath, "utf-8")) as BrandInfo;
-  data.offers = offers;
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-  return true;
 }
 
 export function updateVisualAssetsInfo(briefId: string, visualAssets: VisualAssetsInfo): boolean {
-  ensureBriefsDir();
-  const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
-  if (!fs.existsSync(filePath)) return false;
-  const data = JSON.parse(fs.readFileSync(filePath, "utf-8")) as BrandInfo;
-  data.visualAssets = visualAssets;
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-  return true;
+  try {
+    ensureBriefsDir();
+    const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
+    console.log(`[updateVisualAssetsInfo] File path: ${filePath}`);
+    if (!fs.existsSync(filePath)) {
+      // Auto-create file with minimal structure
+      fs.writeFileSync(filePath, JSON.stringify({ briefId, createdAt: new Date().toISOString() }, null, 2), 'utf-8');
+      console.log(`[updateVisualAssetsInfo] File auto-created.`);
+    }
+    const data = JSON.parse(fs.readFileSync(filePath, "utf-8")) as BrandInfo;
+    data.visualAssets = visualAssets;
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+    return true;
+  } catch (err) {
+    console.error(`[updateVisualAssetsInfo] Error:`, err);
+    return false;
+  }
 }
 
 export function updateBrandReviewsInfo(briefId: string, brandReviews: BrandReviewsInfo): boolean {
-  ensureBriefsDir();
-  const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
-  if (!fs.existsSync(filePath)) return false;
-  const data = JSON.parse(fs.readFileSync(filePath, "utf-8")) as BrandInfo;
-  data.brandReviews = brandReviews;
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-  return true;
+  try {
+    ensureBriefsDir();
+    const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
+    console.log(`[updateBrandReviewsInfo] File path: ${filePath}`);
+    if (!fs.existsSync(filePath)) {
+      // Auto-create file with minimal structure
+      fs.writeFileSync(filePath, JSON.stringify({ briefId, createdAt: new Date().toISOString() }, null, 2), 'utf-8');
+      console.log(`[updateBrandReviewsInfo] File auto-created.`);
+    }
+    const data = JSON.parse(fs.readFileSync(filePath, "utf-8")) as BrandInfo;
+    data.brandReviews = brandReviews;
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+    return true;
+  } catch (err) {
+    console.error(`[updateBrandReviewsInfo] Error:`, err);
+    return false;
+  }
 }
 
 export async function addSummaryToBrief(briefId: string, summary: string, fileName = ''): Promise<void> {

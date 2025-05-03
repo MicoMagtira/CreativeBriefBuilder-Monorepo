@@ -167,10 +167,23 @@ export async function registerRoutes(app: Application): Promise<http.Server> {
 
   app.get("/api/briefs/:id", asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
+    const filePath = path.join(BRIEFS_DIR, `${id}.json`);
+    const exists = fs.existsSync(filePath);
+    console.log(`[GET /api/briefs/${id}] Looking for: ${filePath} Exists: ${exists}`);
     const data = getBrandInfo(id);
     if (!data) return res.status(404).json({ error: "Brand Info not found." });
     return res.json(data);
   }));
+
+  // Debug endpoint to list all brief files
+  app.get("/api/debug/list-briefs", (req: Request, res: Response) => {
+    try {
+      const files = fs.existsSync(BRIEFS_DIR) ? fs.readdirSync(BRIEFS_DIR) : [];
+      res.json({ files });
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to list briefs', details: String(err) });
+    }
+  });
 
   app.get("/api/briefs/:id/summary", asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;

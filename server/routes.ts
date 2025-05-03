@@ -22,6 +22,18 @@ export async function registerRoutes(app: Application): Promise<http.Server> {
 
   app.post("/api/briefs/save-section", asyncHandler(async (req: Request, res: Response) => {
     const { section, briefId, ...fields } = req.body || {};
+    const fs = require('fs');
+    const path = require('path');
+    const BRIEFS_DIR = path.join(__dirname, 'briefs');
+
+    // If briefId is provided and file does not exist, create it
+    if (briefId) {
+      const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
+      if (!fs.existsSync(filePath)) {
+        // Create initial brief file with minimal structure
+        fs.writeFileSync(filePath, JSON.stringify({ briefId, createdAt: new Date().toISOString() }, null, 2), 'utf-8');
+      }
+    }
 
     if (section === "audience") {
       const audience: AudienceInfo = {
@@ -119,8 +131,13 @@ export async function registerRoutes(app: Application): Promise<http.Server> {
 
   app.patch("/api/briefs/:id", asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
+    console.log(`[PATCH] /api/briefs/${id} | Body:`, JSON.stringify(req.body));
     const updated = patchBrandInfo(id, req.body);
-    if (!updated) return res.status(404).json({ error: "Brand Info not found." });
+    if (!updated) {
+      console.warn(`[PATCH] /api/briefs/${id} | 404 Not Found`);
+      return res.status(404).json({ error: "Brand Info not found." });
+    }
+    console.log(`[PATCH] /api/briefs/${id} | Success`);
     return res.json({ success: true, briefId: id });
   }));
 

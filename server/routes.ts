@@ -1,5 +1,11 @@
 import type { Application, Request, Response } from "express";
 import * as http from "http";
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import { saveBrandInfo, getBrandInfo, updateAudienceInfo, updateOffersInfo, updateVisualAssetsInfo, updateBrandReviewsInfo, updateBrandInfo, patchBrandInfo, type BrandInfo, type AudienceInfo, type OffersInfo, type VisualAssetsInfo, type BrandReviewsInfo } from "./briefInfo.js";
 import { analyzeUploadHandler } from './analyzeUpload.js';
 import { generateBriefSummaryHandler } from './aiBriefSummary.js';
@@ -22,9 +28,10 @@ export async function registerRoutes(app: Application): Promise<http.Server> {
 
   app.post("/api/briefs/save-section", asyncHandler(async (req: Request, res: Response) => {
     const { section, briefId, ...fields } = req.body || {};
-    const fs = require('fs');
-    const path = require('path');
     const BRIEFS_DIR = path.join(__dirname, 'briefs');
+    if (!fs.existsSync(BRIEFS_DIR)) {
+      fs.mkdirSync(BRIEFS_DIR, { recursive: true });
+    }
 
     // If briefId is provided and file does not exist, create it
     if (briefId) {
@@ -116,8 +123,16 @@ export async function registerRoutes(app: Application): Promise<http.Server> {
       productList,
       brandGuidelines: brandGuidelines || ""
     };
-    const newBriefId = saveBrandInfo(data);
-    return res.json({ success: true, briefId: newBriefId });
+    if (briefId) {
+      // Save or update brand info at the provided briefId
+      const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
+      fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+      return res.json({ success: true, briefId });
+    } else {
+      // No briefId provided, generate new one as fallback
+      const newBriefId = saveBrandInfo(data);
+      return res.json({ success: true, briefId: newBriefId });
+    }
   }));
 
   app.post('/api/briefs/:id/generate-summary', asyncHandler(generateBriefSummaryHandler));

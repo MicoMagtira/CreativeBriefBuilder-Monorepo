@@ -69,6 +69,7 @@ export function saveBrandInfo(data: BrandInfo): string {
   ensureBriefsDir();
   const briefId = uuidv4();
   const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
+  console.log(`[saveBrandInfo] File path: ${filePath}`);
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
   return briefId;
 }
@@ -100,6 +101,7 @@ export function updateAudienceInfo(briefId: string, audience: AudienceInfo): boo
     ensureBriefsDir();
     const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
     console.log(`[updateAudienceInfo] File path: ${filePath}`);
+    console.log(`[updateAudienceInfo] File path: ${filePath}`);
     if (!fs.existsSync(filePath)) {
       // Auto-create file with minimal structure
       fs.writeFileSync(filePath, JSON.stringify({ briefId, createdAt: new Date().toISOString() }, null, 2), 'utf-8');
@@ -119,6 +121,7 @@ export function updateOffersInfo(briefId: string, offers: OffersInfo): boolean {
   try {
     ensureBriefsDir();
     const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
+    console.log(`[updateAudienceInfo] File path: ${filePath}`);
     console.log(`[updateOffersInfo] File path: ${filePath}`);
     if (!fs.existsSync(filePath)) {
       // Auto-create file with minimal structure
@@ -144,6 +147,7 @@ export function updateVisualAssetsInfo(briefId: string, visualAssets: VisualAsse
   try {
     ensureBriefsDir();
     const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
+    console.log(`[updateAudienceInfo] File path: ${filePath}`);
     console.log(`[updateVisualAssetsInfo] File path: ${filePath}`);
     if (!fs.existsSync(filePath)) {
       // Auto-create file with minimal structure
@@ -164,6 +168,7 @@ export function updateBrandReviewsInfo(briefId: string, brandReviews: BrandRevie
   try {
     ensureBriefsDir();
     const filePath = path.join(BRIEFS_DIR, `${briefId}.json`);
+    console.log(`[updateAudienceInfo] File path: ${filePath}`);
     console.log(`[updateBrandReviewsInfo] File path: ${filePath}`);
     if (!fs.existsSync(filePath)) {
       // Auto-create file with minimal structure

@@ -21,8 +21,9 @@ const asyncHandler = (fn: any) => (req: Request, res: Response, next: any) =>
 export async function registerRoutes(app: Application): Promise<http.Server> {
   app.use('/api/brand-reviews', reviewAnalysisRouter);
 
-  // TEMPORARILY DISABLED - Visual Strategy Analysis
-  // app.post('/api/visual-assets/analyze', analyzeVisualAssetsHandler);
+  // Visual Strategy Analysis endpoint enabled
+  const { analyzeVisualAssetsHandler } = await import('./analyzeUpload.js');
+  app.post('/api/visual-assets/analyze', asyncHandler(analyzeVisualAssetsHandler));
 
   app.post('/api/analyze-upload', asyncHandler(analyzeUploadHandler));
 
